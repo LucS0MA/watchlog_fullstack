@@ -20,10 +20,13 @@
   --primary-foreground: white;
   --font-body: "Inter Tight", sans-serif;
 
+  /* transparence */
+  --opa-black: var(--black-20);
+
   /* =========================
      FONT FAMILIES
      ========================= */
-  --font-heading: "Anton", sans-serif;
+  --font-heading: "Bebas Neue", sans-serif;
   --font-body: "Inter Tight", sans-serif;
 
   /* =========================

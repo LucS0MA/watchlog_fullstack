@@ -1,6 +1,6 @@
 const Footer = () => {
     return (
-        <footer  className="watch-container p-8">
+        <footer  className="watch-container p-8 mt-16">
             <div className="flex justify-between">
                 <div>
                     <p>Watchlog</p>
