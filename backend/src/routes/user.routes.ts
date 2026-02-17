@@ -13,8 +13,8 @@ import {
 export const userRouter = Router();
 
 userRouter.get("/", getAllUsers);
-userRouter.get("/:id", getUserById);
-userRouter.get("/login/:id", login);
-userRouter.delete("/:id", auth, deleteUser);
 userRouter.post("/", register);
+userRouter.post("/login", login);
+userRouter.get("/:id", getUserById);
+userRouter.delete("/:id", auth, deleteUser);
 userRouter.put("/:id", auth, updateUser);
