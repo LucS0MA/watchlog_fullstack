@@ -6,15 +6,12 @@ import Loader from "../components/Loader";
 
 const SingleMovie = () => {
     const { id } = useParams();
-    const [movie, setMovie] = useState()
-
-    console.log(id)
+    const [movie, setMovie] = useState<MovieData | undefined>()
 
     const getMovie = async () => {
     try {
       const response = await axios.get<MovieData>(`http://localhost:3000/movies/${id}`);
       setMovie(response.data);
-      console.log(movie)
     } catch (err) {
       console.error(err);
     }
@@ -22,8 +19,8 @@ const SingleMovie = () => {
 
   useEffect(() => {
     getMovie();
-    console.log(status)
   }, []);
+
 
   if (!movie) {
     return (

@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useAuth } from "./hooks/useAuth";
 import Shop from "./pages/Shop";
 import SingleMovie from "./pages/SingleMovie";
+import SingleArticle from "./pages/SingleProduct";
 
 function App() {
   const {status, authenticate} = useAuth();
@@ -29,6 +30,7 @@ function App() {
         <Route path="/movie" element={<Home />} />
         <Route path="/movie/:id" element={<SingleMovie />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/shop/:id" element={<SingleArticle />} />
       </Route>
     </Routes>
   );
