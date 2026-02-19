@@ -14,10 +14,18 @@ const Header = () => {
       </Link>
       <div>
         <ul className="flex gap-3 uppercase [&>*]:cursor-pointer">
+          <Link to={"/"}>
           <li>About</li>
+          </Link>
+          <Link to={"/"}>
           <li>Movies</li>
+          </Link>
+          <Link to={"/reviews"}>
           <li>Reviews</li>
+          </Link>
+          <Link to={"/shop"}>
           <li>Shop</li>
+          </Link>
         </ul>
       </div>
       <div>

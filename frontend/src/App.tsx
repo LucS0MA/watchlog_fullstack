@@ -6,6 +6,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { useEffect } from "react";
 import { useAuth } from "./hooks/useAuth";
+import Shop from "./pages/Shop";
+import SingleMovie from "./pages/SingleMovie";
 
 function App() {
   const {status, authenticate} = useAuth();
@@ -24,6 +26,9 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/movie" element={<Home />} />
+        <Route path="/movie/:id" element={<SingleMovie />} />
+        <Route path="/shop" element={<Shop />} />
       </Route>
     </Routes>
   );

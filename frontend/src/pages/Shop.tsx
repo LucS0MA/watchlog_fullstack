@@ -1,24 +1,24 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import MovieCard from "../components/MovieCard";
-import type { MovieData } from "../types/Movie.types";
 import { useAuth } from "../hooks/useAuth";
+import type { ArticleData } from "../types/Article.types";
+import ArticleCard from "../components/ArticleCard";
 
-const Home = () => {
-  const [movies, setMovies] = useState<MovieData[]>([]);
+const Shop = () => {
+  const [article, setArticle] = useState<ArticleData[]>([]);
   const { status } = useAuth();
 
-  const getMovies = async () => {
+  const getArticles = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/movies");
-      setMovies(response.data);
+      const response = await axios.get("http://localhost:3000/products");
+      setArticle(response.data);
     } catch (err) {
       console.error(err);
     }
   };
 
   useEffect(() => {
-    getMovies();
+    getArticles();
     console.log(status)
   }, []);
 
@@ -31,9 +31,9 @@ const Home = () => {
   return (
     <div className="watch-container">
       <div className="grid grid-cols-4 gap-4 mx-6">
-        {movies.map((movie, id) => (
+        {article.map((article, id) => (
           <div key={id}>
-            <MovieCard {...movie} />
+            <ArticleCard {...article} />
           </div>
         ))}
       </div>
@@ -41,4 +41,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Shop;
