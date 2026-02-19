@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { registerForm, registerPost } from "../types/Register.types";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { UserInputSchema } from "../schema/user.schema";
 
 const Register = () => {
   let navigate = useNavigate();
@@ -15,24 +16,32 @@ const Register = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    try {
-      if (form.password !== form.passwordConfirmation) {
-        setError("Les mots de passe ne correspondent pas");
-        return;
-      }
-      setError(null);
-      console.log(form);
-      const formData: registerPost = {
-        username: form.username,
-        email: form.email,
-        password_hash: form.password,
-      };
-      console.log(formData);
-      const response = await axios.post(
-        "http://localhost:3000/users",
-        formData,
+    setError("");
+
+    if (form.password !== form.passwordConfirmation) {
+      setError("Les mots de passe ne correspondent pas");
+      return;
+    }
+    setError(null);
+    const formData: registerPost = {
+      username: form.username,
+      email: form.email,
+      password_hash: form.password,
+    };
+    const result = UserInputSchema.safeParse(formData);
+    if (!result.success) {
+      const fieldErrors = result.error.flatten().fieldErrors;
+
+      setError(
+        fieldErrors.password_hash?.[0] ||
+          fieldErrors.email?.[0] ||
+          fieldErrors.username?.[0] ||
+          "Erreur validation",
       );
-      console.log(response);
+      return;
+    }
+    try {
+      await axios.post("http://localhost:3000/users", result.data);
       setForm({
         ...form,
         username: "",
@@ -40,9 +49,13 @@ const Register = () => {
         password: "",
         passwordConfirmation: "",
       });
-      navigate("/login")
-    } catch (err) {
+      navigate("/login");
+    } catch (err: any) {
       console.error("Failed to create the user", err);
+      if (err.response) {
+        console.error(err.response.data);
+        setError(err.response.data.message);
+      }
     }
   };
 
@@ -94,7 +107,7 @@ const Register = () => {
           ></input>
         </div>
         {error && (
-          <p className="text-red-500 mt-2 absolute bottom-26">{error}</p>
+          <p className="text-red-500 mt-2 w-90 text-center">{error}</p>
         )}
         <button
           className="mt-8 text-background px-6 py-2 bg-foreground cursor-pointer hover:bg-background hover:text-white transition duration-150"

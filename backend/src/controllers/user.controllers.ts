@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { User } from "../models/user.models.js";
 import { userService } from "../services/user.services.js";
 import { UserLogin } from "../types/user.types.js";
+import { UserInput, UserInputSchema } from "../schema/user.schema.js";
 
 export const getAllUsers = async (_req: Request, res: Response) => {
   try {
@@ -76,8 +77,8 @@ export const login = async (req: Request, res: Response) => {
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const newUserData = req.body as User;
-    const result = await userService.createUser(newUserData);
+    const userDataParsed = UserInputSchema.parse(req.body) as UserInput;
+    const result = await userService.createUser(userDataParsed);
     res.status(201).json({ message: "User successfully created", result });
   } catch (err) {
     console.error(err);

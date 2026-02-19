@@ -1,21 +1,29 @@
 import { useState } from "react";
 import type { loginForm } from "../types/FormLogin.types";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import axios from "axios";
 
 const Login = () => {
   const [form, setForm] = useState<loginForm>({ email: "", password: "" });
+  const [error, setError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setError("");
     console.log(form);
     try {
-      const response = await axios.post("http://localhost:3000/users/login", form, {
+      await axios.post("http://localhost:3000/users/login", form, {
         withCredentials: true,
       });
-      console.log(response);
-    } catch (err) {
-      console.log("Failed to login", err);
+      navigate("/");
+    } catch (err: any) {
+      console.error("Failed to login", err);
+      if (err.response) {
+        console.error(err.response.data);
+        setError(err.response.data.message);
+      }
     }
   };
 
@@ -25,7 +33,7 @@ const Login = () => {
         onSubmit={handleSubmit}
         className="flex flex-col items-center px-40 py-10 bg-secondary min-w-2xs max-w-md relative"
       >
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 mb-4">
           <label htmlFor="email">E-mail</label>
           <input
             className="bg-white text-background px-2 py-1"
@@ -45,6 +53,7 @@ const Login = () => {
             placeholder="●●●●●●●●"
           ></input>
         </div>
+        {error && <p className="text-red-500  absolute bottom-31">{error}</p>}
         <button
           className="m-8 text-background px-6 py-2 bg-foreground cursor-pointer hover:bg-background hover:text-white transition duration-150"
           role="submit"

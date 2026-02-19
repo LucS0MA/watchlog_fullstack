@@ -7,6 +7,20 @@ import { UserLogin, UserPublic, UserRow } from "../types/user.types.js";
 
 export const userService = {
   createUser: async (userData: User): Promise<UserPublic> => {
+    const doUserExistByMail = await pool.query<UserRow>(
+      "SELECT id, username, email FROM users WHERE email = $1",
+      [userData.email],
+    );
+    if (doUserExistByMail.rowCount === 1) {
+      throw new Error('This email is already registered')
+    }
+    const doUserExistByUserName = await pool.query<UserRow>(
+      "SELECT id, username, email FROM users WHERE username = $1",
+      [userData.username],
+    );
+    if (doUserExistByUserName.rowCount === 1) {
+      throw new Error('This username is already registered')
+    }
     const hash = await argon2.hash(userData.password_hash);
     const newUser = await pool.query<UserRow>(
       "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id, username",
@@ -44,7 +58,7 @@ export const userService = {
     );
 
     if (!rows[0]) {
-      throw new Error("INVALID_CREDENTIALS");
+      throw new Error("Invalid credentials");
     }
 
     const user = rows[0];
@@ -52,13 +66,13 @@ export const userService = {
     const passwordHash = user.password_hash;
     const password = loginData.password;
     if (!passwordHash || !password) {
-      throw new Error("INVALID_CREDENTIALS");
+      throw new Error("Invalid credentials");
     }
 
     const isValid = await argon2.verify(passwordHash, password);
 
     if (!isValid) {
-      throw new Error("INVALID_CREDENTIALS");
+      throw new Error("Invalid credentials");
     }
 
     return jwt.sign(
