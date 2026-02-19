@@ -23,11 +23,11 @@ const Home = () => {
     console.log(status)
   }, []);
 
-  if (status !== "authenticated") {
-        return (
-            <Loader />
-        )
-    }
+  // if (status !== "authenticated") {
+  //       return (
+  //           <Loader />
+  //       )
+  //   }
 
   return (
     <div className="watch-container">

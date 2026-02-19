@@ -7,11 +7,12 @@ export function useAuth() {
 
   const authenticate = useCallback(async () => {
     try {
-      const response = await axios.get("/users/me", {
+      const response = await axios.get("http://localhost:3000/users/me", {
         withCredentials: true,
       });
 
       setAccount(response.data);
+      console.log(account)
     } catch {
       setAccount(null);
     } finally {
