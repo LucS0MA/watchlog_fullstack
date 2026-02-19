@@ -18,7 +18,7 @@ export function useAuth() {
     } finally {
       setInitialized(true);
     }
-  }, [setAccount, setInitialized]);
+  }, [setAccount, setInitialized, account]);
 
   let status;
 
