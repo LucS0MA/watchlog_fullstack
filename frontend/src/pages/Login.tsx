@@ -2,8 +2,10 @@ import { useState } from "react";
 import type { loginForm } from "../types/FormLogin.types";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
+import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
+  const {authenticate} = useAuth();
   const [form, setForm] = useState<loginForm>({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
 
@@ -17,6 +19,7 @@ const Login = () => {
       await axios.post("http://localhost:3000/users/login", form, {
         withCredentials: true,
       });
+      authenticate()
       navigate("/");
     } catch (err: any) {
       console.error("Failed to login", err);

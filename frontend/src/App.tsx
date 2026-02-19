@@ -9,6 +9,7 @@ import { useAuth } from "./hooks/useAuth";
 import Shop from "./pages/Shop";
 import SingleMovie from "./pages/SingleMovie";
 import SingleArticle from "./pages/SingleProduct";
+import OnlyGuestRoute from "./routes/OnlyGuestRoute";
 
 function App() {
   const {status, authenticate} = useAuth();
@@ -25,8 +26,10 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
+      <Route element={<OnlyGuestRoute />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+      </Route>
         <Route path="/movie" element={<Home />} />
         <Route path="/movie/:id" element={<SingleMovie />} />
         <Route path="/shop" element={<Shop />} />
