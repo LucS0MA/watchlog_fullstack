@@ -4,8 +4,20 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { useEffect } from "react";
+import { useAuth } from "./hooks/useAuth";
 
 function App() {
+  const {status, authenticate} = useAuth();
+
+    useEffect(() => {
+    authenticate()
+  }, []);
+
+  useEffect(() => {
+  console.log(status); 
+}, [status]);
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
