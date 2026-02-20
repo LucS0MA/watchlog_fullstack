@@ -54,9 +54,8 @@ const ArticleCard = (articleData: Article) => {
           e.preventDefault();
       e.stopPropagation();
         }} className="absolute left-3 top-3 z-30 flex items-center gap-2 rounded-full bg-black/60 backdrop-blur-md px-2 py-1">
-  {/* PLUS */}
   <button
-    onClick={(e) => {
+    onClick={() => {
       addItem({ product: articleData, quantity: 1 });
     }}
     className="cursor-pointer p-1 rounded-full text-white transition disabled:opacity-40"
@@ -66,14 +65,12 @@ const ArticleCard = (articleData: Article) => {
     <CirclePlus size={20} />
   </button>
 
-  {/* QUANTITÉ */}
   <div className="relative z-50 pointer-events-none min-w-[20px] text-center text-sm font-semibold text-white">
     {quantityInCart ?? 0}
   </div>
 
-  {/* MOINS */}
   <button
-    onClick={(e) => {
+    onClick={() => {
       removeItem({ product: articleData, quantity: - 1 });
     }}
     disabled={!quantityInCart}
