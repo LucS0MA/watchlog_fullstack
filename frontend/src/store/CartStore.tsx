@@ -3,11 +3,18 @@ import type { Cart, CartItem } from "../types/Cart.types";
 
 interface CartStore extends Cart {
   addItem: (article: CartItem) => void;
-  increaseQuantity: (id: number) => void,
+  increaseQuantity: (id: number) => void;
+  totalProducts: () => number;
 }
 
 export const useCartStore = create<CartStore>()((set, get) => ({
   products: JSON.parse(localStorage.getItem("cart") || "[]"),
+  totalProducts: () => {
+    const { products } = get();
+    let total = 0;
+    products.map((a) => total += a.quantity);
+    return total;
+  },
   addItem: (article) => {
     const { products } = get();
       const exist = products.find(
@@ -34,5 +41,5 @@ export const useCartStore = create<CartStore>()((set, get) => ({
       localStorage.setItem("cart", JSON.stringify(updatedProducts));
       return { products: updatedProducts };
     })
-  }
+  },
 }));

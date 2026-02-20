@@ -9,7 +9,7 @@ import { CirclePlus } from "lucide-react";
 const SingleArticle = () => {
   const { id } = useParams();
   const [article, setArticle] = useState<Article | undefined>();
-  const { addItem, products } = useCartStore();
+  const { addItem } = useCartStore();
 
 
   const getArticle = async () => {
@@ -23,8 +23,7 @@ const SingleArticle = () => {
 
   useEffect(() => {
     getArticle();
-    console.log(products)
-  }, [products]);
+  }, []);
   
 
   if (!article) {

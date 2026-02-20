@@ -1,15 +1,10 @@
 import { Link } from "react-router";
 import type { Article } from "../types/Article.types";
 import { useCartStore } from "../store/CartStore";
-import { useEffect } from "react";
 import { CirclePlus } from "lucide-react";
 
 const ArticleCard = (articleData: Article) => {
-  const { addItem, products } = useCartStore();
-
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
+  const { addItem } = useCartStore();
 
   const formattedPrice = new Intl.NumberFormat("fr-FR", {
     style: "currency",
