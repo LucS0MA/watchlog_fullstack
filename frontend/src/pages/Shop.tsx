@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import type { ArticleData } from "../types/Article.types";
+import type { Article } from "../types/Article.types";
 import ArticleCard from "../components/ArticleCard";
 
 const Shop = () => {
-  const [article, setArticle] = useState<ArticleData[]>([]);
+  const [article, setArticle] = useState<Article[]>([]);
   const { status } = useAuth();
 
   const getArticles = async () => {

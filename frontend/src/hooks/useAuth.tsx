@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useAccountStore } from "../store/store";
+import { useAccountStore } from "../store/UserStore";
 import axios from "axios";
 
 export function useAuth() {

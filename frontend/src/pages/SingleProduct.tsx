@@ -1,16 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import type { ArticleData } from "../types/Article.types";
+import type { Article } from "../types/Article.types";
 import Loader from "../components/Loader";
+import { useCartStore } from "../store/CartStore";
+import { CirclePlus } from "lucide-react";
 
 const SingleArticle = () => {
   const { id } = useParams();
-  const [article, setArticle] = useState<ArticleData | undefined>();
+  const [article, setArticle] = useState<Article | undefined>();
+  const { addItem, products } = useCartStore();
+
 
   const getArticle = async () => {
     try {
-      const response = await axios.get<ArticleData>(`http://localhost:3000/products/${id}`);
+      const response = await axios.get<Article>(`http://localhost:3000/products/${id}`);
       setArticle(response.data);
     } catch (err) {
       console.error(err);
@@ -19,7 +23,9 @@ const SingleArticle = () => {
 
   useEffect(() => {
     getArticle();
-  }, []);
+    console.log(products)
+  }, [products]);
+  
 
   if (!article) {
     return <Loader />;
@@ -93,7 +99,17 @@ const SingleArticle = () => {
             <span className="text-white/40 text-xs uppercase tracking-widest">Ajouté le</span>
             <span className="text-white text-base">{formattedDate}</span>
           </div>
-
+          <div className="absolute left-3 top-3 z-50 items-center text-ui font-semibold rounded-full flex gap-1">
+          <p>
+            Add to cart →
+          </p>
+          <CirclePlus
+            onClick={() => {
+              addItem({product: article, quantity: 1});
+            }}
+            className="hover:bg-green-800 rounded-full cursor-pointer"
+          />
+        </div>
         </div>
       </div>
     </div>

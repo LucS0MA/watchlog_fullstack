@@ -1,4 +1,4 @@
-export type ArticleData = {
+export type Article = {
 name: string,
 description: string,
 id: number,
