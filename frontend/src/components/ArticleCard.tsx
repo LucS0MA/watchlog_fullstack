@@ -1,10 +1,10 @@
 import { Link } from "react-router";
 import type { Article } from "../types/Article.types";
 import { useCartStore } from "../store/CartStore";
-import { CirclePlus } from "lucide-react";
+import { CircleMinus, CirclePlus } from "lucide-react";
 
 const ArticleCard = (articleData: Article) => {
-  const { addItem } = useCartStore();
+  const { addItem, products, removeItem } = useCartStore();
 
   const formattedPrice = new Intl.NumberFormat("fr-FR", {
     style: "currency",
@@ -18,6 +18,17 @@ const ArticleCard = (articleData: Article) => {
   }).format(new Date(articleData.created_at));
 
   const isInStock = articleData.stock > 0;
+
+  const getQuantityArticle = () => {
+    const isArticleInCart = products.find(
+      (article) => article.product.id === articleData.id,
+    );
+    return isArticleInCart?.quantity;
+  };
+
+  const quantityInCart = getQuantityArticle();
+
+  console.log(quantityInCart);
 
   return (
     <Link to={`/shop/${articleData.id}`}>
@@ -39,18 +50,39 @@ const ArticleCard = (articleData: Article) => {
         >
           {isInStock ? `En stock (${articleData.stock})` : "Rupture"}
         </span>
-        <div className="absolute left-3 top-3 z-50 items-center text-ui font-semibold rounded-full flex gap-1">
-          {/* <p className="w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-500 group-hover:w-auto group-hover:opacity-100">
-            Add to cart →
-          </p> */}
-          <CirclePlus
-            onClick={(e) => {
-              e.preventDefault();
-              addItem({product: articleData, quantity: 1});
-            }}
-            className="hover:bg-green-800 rounded-full"
-          />
-        </div>
+        <div onClick={(e) => {
+          e.preventDefault();
+      e.stopPropagation();
+        }} className="absolute left-3 top-3 z-30 flex items-center gap-2 rounded-full bg-black/60 backdrop-blur-md px-2 py-1">
+  {/* PLUS */}
+  <button
+    onClick={(e) => {
+      addItem({ product: articleData, quantity: 1 });
+    }}
+    className="cursor-pointer p-1 rounded-full text-white transition disabled:opacity-40"
+    disabled={!isInStock}
+    aria-label="Ajouter un article"
+  >
+    <CirclePlus size={20} />
+  </button>
+
+  {/* QUANTITÉ */}
+  <div className="relative z-50 pointer-events-none min-w-[20px] text-center text-sm font-semibold text-white">
+    {quantityInCart ?? 0}
+  </div>
+
+  {/* MOINS */}
+  <button
+    onClick={(e) => {
+      removeItem({ product: articleData, quantity: - 1 });
+    }}
+    disabled={!quantityInCart}
+    className="cursor-pointer p-1 rounded-full text-white hover:text-black transition disabled:opacity-30"
+    aria-label="Retirer un article"
+  >
+    <CircleMinus size={20} color="white" />
+  </button>
+</div>
 
         <div className="absolute inset-x-0 bottom-0 z-20 px-4 pb-4 pt-16 bg-gradient-to-t from-black via-black/80 via-40% to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col gap-1">
           <p className="text-center font-heading text-white text-lg leading-tight">

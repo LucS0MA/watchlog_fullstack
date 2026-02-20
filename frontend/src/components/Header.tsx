@@ -17,16 +17,16 @@ const Header = () => {
       <div>
         <ul className="flex gap-3 uppercase [&>*]:cursor-pointer">
           <Link to={"/"}>
-          <li>About</li>
+            <li>About</li>
           </Link>
           <Link to={"/"}>
-          <li>Movies</li>
+            <li>Movies</li>
           </Link>
           <Link to={"/reviews"}>
-          <li>Reviews</li>
+            <li>Reviews</li>
           </Link>
           <Link to={"/shop"}>
-          <li>Shop</li>
+            <li>Shop</li>
           </Link>
         </ul>
       </div>
@@ -34,8 +34,14 @@ const Header = () => {
         <ul className="flex gap-3 [&>*]:cursor-pointer">
           {account ? <div> Welcome {account.username} !</div> : ""}
           <div className="relative">
-          <ShoppingCart />
-          <div className="absolute top-3.5 -left-2 px-1 py-0.5 text-ui bg-amber-50 rounded-full text-background">{total}</div>
+            <ShoppingCart />
+            {total > 0 ? (
+              <div className="absolute top-3.5 -left-2 min-w-5 text-center text-ui bg-amber-50 rounded-full text-background">
+                {total}
+              </div>
+            ) : (
+              ""
+            )}
           </div>
           <Link to={"/login"}>
             <User />
