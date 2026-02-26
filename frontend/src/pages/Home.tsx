@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import type { MovieData } from "../types/Movie.types";
 import { useAuth } from "../hooks/useAuth";
+import { Loader } from "lucide-react";
 
 const Home = () => {
   const [movies, setMovies] = useState<MovieData[]>([]);
@@ -11,7 +12,7 @@ const Home = () => {
   const getMovies = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/movies`);
-      setMovies(response.data);
+      setMovies(response.data.data ?? response.data ?? []);
     } catch (err) {
       console.error(err);
     }
@@ -19,14 +20,15 @@ const Home = () => {
 
   useEffect(() => {
     getMovies();
+    console.log(import.meta.env.VITE_API_URL)
     console.log(status)
   }, []);
 
-  // if (status !== "authenticated") {
-  //       return (
-  //           <Loader />
-  //       )
-  //   }
+  if (movies.length === 0) {
+        return (
+            <Loader />
+        )
+    }
 
   return (
     <div className="watch-container">
