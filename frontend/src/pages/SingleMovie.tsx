@@ -10,7 +10,7 @@ const SingleMovie = () => {
 
     const getMovie = async () => {
     try {
-      const response = await axios.get<MovieData>(`http://localhost:3000/movies/${id}`);
+      const response = await axios.get<MovieData>(`${import.meta.env.VITE_API_URL}/movies/${id}`);
       setMovie(response.data);
     } catch (err) {
       console.error(err);

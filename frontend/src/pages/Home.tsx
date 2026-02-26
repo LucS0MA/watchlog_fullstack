@@ -10,7 +10,7 @@ const Home = () => {
 
   const getMovies = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/movies");
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/movies`);
       setMovies(response.data);
     } catch (err) {
       console.error(err);

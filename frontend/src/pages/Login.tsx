@@ -16,7 +16,7 @@ const Login = () => {
     setError("");
     console.log(form);
     try {
-      await axios.post("http://localhost:3000/users/login", form, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/users/login`, form, {
         withCredentials: true,
       });
       authenticate()

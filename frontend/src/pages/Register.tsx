@@ -41,7 +41,7 @@ const Register = () => {
       return;
     }
     try {
-      await axios.post("http://localhost:3000/users", result.data);
+      await axios.post(`${import.meta.env.VITE_API_URL}/users`, result.data);
       setForm({
         ...form,
         username: "",

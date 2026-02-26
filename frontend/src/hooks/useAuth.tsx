@@ -7,7 +7,7 @@ export function useAuth() {
 
   const authenticate = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:3000/users/me", {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/me`, {
         withCredentials: true,
       });
 
